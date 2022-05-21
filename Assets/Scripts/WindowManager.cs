@@ -146,7 +146,7 @@ public class WindowManager : MonoBehaviour
     {
         return (GetAsyncKeyState((int)key) & 0x8001) != 0;
 
-        
+       
     }
 
 
@@ -203,6 +203,7 @@ public class WindowManager : MonoBehaviour
             {
                 GameManager.instance.ChangeActiveChar(2);
             }
+             
         }
 
        

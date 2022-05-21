@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
 
     private float checkTouchEffTime;
 
+    public float theftMouseTime = 60f;
+    public bool theftMouse = false;
+    private float returnMouseTime;
+    public LineRenderer mStealLine;
+
 
     public bool canFire = false;
     public bool canTouchEffect = false;
@@ -38,6 +43,7 @@ public class GameManager : MonoBehaviour
             PoolManager.CreatePool(poolObjDataList[i]); 
         }
         mainCam = Camera.main;
+        mStealLine.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -52,6 +58,8 @@ public class GameManager : MonoBehaviour
         LookAtMouse();
         TryFire();
         TouchEffect();
+        CheckAttachFlyingMob();
+        StealCursor();
     }
 
     private void TouchEffect()
@@ -84,6 +92,46 @@ public class GameManager : MonoBehaviour
             arrowFireTime = Time.time + arrowDelay;
             Arrow arrow = PoolManager.GetItem<Arrow>("Arrow1");
             arrow.Set(arrowStartTr, arrowSpeed);
+        }
+    }
+
+    private void CheckAttachFlyingMob()
+    {
+        if(!theftMouse && patrollingCharList[0].activeSelf)
+        {
+
+            if(Vector2.Distance(patrollingCharList[0].transform.position, mainCam.ScreenToWorldPoint(Input.mousePosition))< 0.3f)
+            {
+     
+                theftMouse = true;
+                returnMouseTime = Time.time + theftMouseTime;
+                mStealLine.gameObject.SetActive(true);
+            }
+        }
+        else if(theftMouse)
+        {
+            if(returnMouseTime < Time.time)
+            {
+                theftMouse = false;
+                mStealLine.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void StealCursor()
+    {
+        if(theftMouse)
+        {
+            Vector2 scrPos = mainCam.WorldToScreenPoint(patrollingCharList[0].transform.position);
+            WindowManager.SetCursorPosition((int)scrPos.x, (int)scrPos.y);
+            mStealLine.SetPosition(0, patrollingCharList[0].transform.position);
+            mStealLine.SetPosition(1, mainCam.ScreenToWorldPoint(Input.mousePosition));
+        }
+
+        if (WindowManager.GetKeyDown(WKeyCode.HOME) && WindowManager.GetKey(WKeyCode.LEFT_CONTROL))
+        {
+            theftMouse = false;
+            mStealLine.gameObject.SetActive(false);
         }
     }
 
