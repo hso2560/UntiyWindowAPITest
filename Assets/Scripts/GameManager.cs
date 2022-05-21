@@ -24,7 +24,12 @@ public class GameManager : MonoBehaviour
     public int touchEffCount;
 
     private float checkTouchEffTime;
- 
+
+
+    public bool canFire = false;
+    public bool canTouchEffect = false;
+    [SerializeField] List<GameObject> patrollingCharList = new List<GameObject>();
+
     private void Awake()
     {
         instance = this;
@@ -54,7 +59,7 @@ public class GameManager : MonoBehaviour
         if (WindowManager.GetKeyDown(WKeyCode.LEFT_BUTTON) || WindowManager.GetKeyDown(WKeyCode.RIGHT_BUTTON)
             || WindowManager.GetKeyDown(WKeyCode.CENTER_BUTTON))
         {
-            if (checkTouchEffTime < Time.time)
+            if (checkTouchEffTime < Time.time && canTouchEffect)
             {
                 checkTouchEffTime = Time.time + 0.1f;
                 PoolManager.GetItem("TouchEff" + Random(startEffIndex, startEffIndex + touchEffCount - 1), mainCam.ScreenToWorldPoint(Input.mousePosition), 2f);
@@ -74,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void TryFire()
     {
-        if(WindowManager.GetKey(WKeyCode.LEFT_BUTTON) && arrowFireTime < Time.time)
+        if(WindowManager.GetKey(WKeyCode.LEFT_BUTTON) && arrowFireTime < Time.time && canFire)
         {
             arrowFireTime = Time.time + arrowDelay;
             Arrow arrow = PoolManager.GetItem<Arrow>("Arrow1");
@@ -94,6 +99,11 @@ public class GameManager : MonoBehaviour
             //Debug.LogError(e.ToString());
             
         }
+    }
+
+    public void ChangeActiveChar(int idx)
+    {
+        patrollingCharList[idx].SetActive(!patrollingCharList[idx].activeSelf);
     }
 
     private void OnApplicationQuit()

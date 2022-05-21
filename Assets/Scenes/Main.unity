@@ -896,6 +896,12 @@ MonoBehaviour:
   arrowDelay: 0.2
   startEffIndex: 1
   touchEffCount: 15
+  canFire: 0
+  canTouchEffect: 0
+  patrollingCharList:
+  - {fileID: 8653006266829724038}
+  - {fileID: 4579376656140113827}
+  - {fileID: 6891580169209720742}
 --- !u!4 &8512145067138092321
 Transform:
   m_ObjectHideFlags: 0

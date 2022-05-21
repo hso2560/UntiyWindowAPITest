@@ -150,7 +150,6 @@ public class WindowManager : MonoBehaviour
     }
 
 
-
 #if !UNITY_EDITOR
 
     private void Awake()
@@ -178,16 +177,35 @@ public class WindowManager : MonoBehaviour
 
     private void Update()
     {
-        if (GetKeyDown(WKeyCode.Q) && GetKey(WKeyCode.LEFT_CONTROL))
+        if(GetKey(WKeyCode.LEFT_CONTROL))
         {
-            Application.Quit();
+            if(GetKeyDown(WKeyCode.Q))
+            {
+                Application.Quit();
+            }
+            else if(GetKeyDown(WKeyCode.ALPHA1))
+            {
+                GameManager.instance.canFire = !GameManager.instance.canFire;
+            }
+            else if(GetKeyDown(WKeyCode.ALPHA2))
+            {
+                GameManager.instance.canTouchEffect = !GameManager.instance.canTouchEffect;
+            }
+            else if(GetKeyDown(WKeyCode.ALPHA3))
+            {
+                GameManager.instance.ChangeActiveChar(0);
+            }
+            else if(GetKeyDown(WKeyCode.ALPHA4))
+            {
+                GameManager.instance.ChangeActiveChar(1);
+            }
+            else if(GetKeyDown(WKeyCode.ALPHA5))
+            {
+                GameManager.instance.ChangeActiveChar(2);
+            }
         }
 
-        else if(GetKeyDown(WKeyCode.P) && GetKey(WKeyCode.LEFT_CONTROL))
-        {
-            isAlphaZero = !isAlphaZero;
-            WindowManager.SetWindowAlpha(isAlphaZero ? 0 : 1);
-        }
+       
     }
 
       private void OnDestroy()
@@ -198,6 +216,12 @@ public class WindowManager : MonoBehaviour
 #endif
 
 }
+
+/*else if(GetKeyDown(WKeyCode.P) && GetKey(WKeyCode.LEFT_CONTROL))
+        {
+            isAlphaZero = !isAlphaZero;
+            WindowManager.SetWindowAlpha(isAlphaZero ? 0 : 1);
+        }*/
 
 public enum WKeyCode
 {
