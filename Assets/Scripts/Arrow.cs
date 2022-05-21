@@ -20,7 +20,7 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
-        if(transform.position.y < -5f)
+        if(transform.position.y < -6f)
         {
             gameObject.SetActive(false);
         }

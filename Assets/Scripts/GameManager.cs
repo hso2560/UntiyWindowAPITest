@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
 
     private float arrowFireTime;
     [SerializeField] private float arrowDelay = 0.2f;
+
+    public int startEffIndex;
+    public int touchEffCount;
+
+    private float checkTouchEffTime;
  
     private void Awake()
     {
@@ -41,7 +46,24 @@ public class GameManager : MonoBehaviour
     {
         LookAtMouse();
         TryFire();
+        TouchEffect();
     }
+
+    private void TouchEffect()
+    {
+        if (WindowManager.GetKeyDown(WKeyCode.LEFT_BUTTON) || WindowManager.GetKeyDown(WKeyCode.RIGHT_BUTTON)
+            || WindowManager.GetKeyDown(WKeyCode.CENTER_BUTTON))
+        {
+            if (checkTouchEffTime < Time.time)
+            {
+                checkTouchEffTime = Time.time + 0.1f;
+                PoolManager.GetItem("TouchEff" + Random(startEffIndex, startEffIndex + touchEffCount - 1), mainCam.ScreenToWorldPoint(Input.mousePosition), 2f);
+            }
+        }
+    }
+
+    private int Random(int min, int max) => UnityEngine.Random.Range(min, max + 1);
+    private float Random(float min, float max) => UnityEngine.Random.Range(min, max);
 
     private void LookAtMouse()
     {
@@ -69,7 +91,7 @@ public class GameManager : MonoBehaviour
         }
         catch(Exception e) 
         {
-            Debug.LogError(e.ToString());
+            //Debug.LogError(e.ToString());
             
         }
     }

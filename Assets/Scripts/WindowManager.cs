@@ -173,7 +173,7 @@ public class WindowManager : MonoBehaviour
 
     private void Start()
     {
-        SetHook();
+        
     }
 
     private void Update()
@@ -192,7 +192,7 @@ public class WindowManager : MonoBehaviour
 
       private void OnDestroy()
     {
-        UnhookWindowsHookEx(hWndMain);
+        
     }
 
 #endif

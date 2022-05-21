@@ -42,7 +42,18 @@ public static class PoolManager
         }
     }
 
-    public static GameObject GetItem(string key) => poolDic[key].GetItem();
+    public static GameObject GetItem(string key, Vector3 pos, float exist = -1f)
+    {
+        GameObject o = poolDic[key].GetItem();
+        o.transform.position = pos;
+
+        if(exist > 0f)
+        {
+            Util.DelayFunc(() => o.SetActive(false), exist);
+        }
+
+        return o;
+    }
     public static T GetItem<T>(string key) => poolDic[key].GetItem<T>();
 
 }
