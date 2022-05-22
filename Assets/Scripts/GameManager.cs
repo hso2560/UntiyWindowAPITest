@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     private float returnMouseTime;
     public LineRenderer mStealLine;
 
+    private bool isInvincible = false;
+
 
     public bool canFire = false;
     public bool canTouchEffect = false;
@@ -97,12 +99,10 @@ public class GameManager : MonoBehaviour
 
     private void CheckAttachFlyingMob()
     {
-        if(!theftMouse && patrollingCharList[0].activeSelf)
+        if(!theftMouse && patrollingCharList[0].activeSelf && !isInvincible)
         {
-
             if(Vector2.Distance(patrollingCharList[0].transform.position, mainCam.ScreenToWorldPoint(Input.mousePosition))< 0.3f)
             {
-     
                 theftMouse = true;
                 returnMouseTime = Time.time + theftMouseTime;
                 mStealLine.gameObject.SetActive(true);
@@ -112,8 +112,7 @@ public class GameManager : MonoBehaviour
         {
             if(returnMouseTime < Time.time)
             {
-                theftMouse = false;
-                mStealLine.gameObject.SetActive(false);
+                UnsetStealCursor();
             }
         }
     }
@@ -130,9 +129,16 @@ public class GameManager : MonoBehaviour
 
         if (WindowManager.GetKeyDown(WKeyCode.HOME) && WindowManager.GetKey(WKeyCode.LEFT_CONTROL))
         {
-            theftMouse = false;
-            mStealLine.gameObject.SetActive(false);
+            UnsetStealCursor();
         }
+    }
+
+    private void UnsetStealCursor()
+    {
+        theftMouse = false;
+        mStealLine.gameObject.SetActive(false);
+        isInvincible = true;
+        Util.DelayFunc(() => isInvincible = false, 1.5f);
     }
 
     private void Save()
