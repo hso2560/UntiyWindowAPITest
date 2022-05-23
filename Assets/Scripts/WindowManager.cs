@@ -185,11 +185,11 @@ public class WindowManager : MonoBehaviour
             }
             else if(GetKeyDown(WKeyCode.ALPHA1))
             {
-                GameManager.instance.canFire = !GameManager.instance.canFire;
+                GameManager.instance.SetCanArrowFire();
             }
             else if(GetKeyDown(WKeyCode.ALPHA2))
             {
-                GameManager.instance.canTouchEffect = !GameManager.instance.canTouchEffect;
+                GameManager.instance.SetCanTouchEffect();
             }
             else if(GetKeyDown(WKeyCode.ALPHA3))
             {
